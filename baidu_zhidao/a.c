@@ -76,7 +76,7 @@ int m_ltoa(char **dest, const int64_t i) {
 
 static int32_t structSize = sizeof(struct Employee);
 
-int write(struct Employee *employess) {
+int write(struct Employee *employees) {
     FILE *fp1 = NULL;
     if ((fp1 = fopen("info.dat", "wb")) == NULL) {
         perror("fopen error");
@@ -90,26 +90,26 @@ int write(struct Employee *employess) {
 
     for (int i = 0; i < 3; ++i) {
         //binary write
-        fwrite(&(employess[i]), 1, structSize, fp1);
+        fwrite(&(employees[i]), 1, structSize, fp1);
 
         //text write
-        char *name = employess[i].name;
+        char *name = employees[i].name;
         fwrite(name, 1, m_strlen(name), fp2);
         fputc('\t', fp2);
         char *numStr = NULL;
-        int numStrSize = m_itoa(&numStr, employess[i].num);
+        int numStrSize = m_itoa(&numStr, employees[i].num);
         fwrite(numStr, 1, numStrSize, fp2);
         free(numStr);
         fputc('\t', fp2);
         char *ageStr = NULL;
-        int ageStrSize = m_itoa(&ageStr, employess[i].age);
+        int ageStrSize = m_itoa(&ageStr, employees[i].age);
         fwrite(ageStr, 1, ageStrSize, fp2);
         free(ageStr);
         fputc('\t', fp2);
-        fwrite(employess[i].time, 1, 8, fp2);
+        fwrite(employees[i].time, 1, 8, fp2);
         fputc('\t', fp2);
         char *salaryStr = NULL;
-        int salaryStrSize = m_ltoa(&salaryStr, employess[i].salary);
+        int salaryStrSize = m_ltoa(&salaryStr, employees[i].salary);
         fwrite(salaryStr, 1, salaryStrSize, fp2);
         free(salaryStr);
         fputc('\n', fp2);
@@ -122,12 +122,12 @@ int write(struct Employee *employess) {
 
 int main() {
 
-    struct Employee employess[] = {
+    struct Employee employees[] = {
             {"张三", 1, 18, "20200101", 5000},
             {"王五", 2, 19, "20200102", 4000},
             {"李四", 3, 20, "20200103", 4500}};
 
-    if (write(employess)) return 1;
+    if (write(employees)) return 1;
 
     //----------------read--------------------
     FILE *fp1 = NULL;
